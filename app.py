@@ -70,20 +70,17 @@ if uploaded_file and api_key:
 
             # Automatic classification based on response
             text_lower = full_resp.lower()
-            is_doc = any(keyword in text_lower for keyword in ["documento", "pdf", "formulario", "papel"])
-            is_real = not is_doc
-            pro = any(keyword in text_lower for keyword in ["cámara profesional", "dslr", "lente profesional"])
-            phone = any(keyword in text_lower for keyword in ["celular", "móvil", "smartphone", "iphone", "android"])
-            ai_gen = any(keyword in text_lower for keyword in ["ia", "inteligencia artificial", "generado por ai"])
-
-            # Prepare chart data
             classification = {
-                "Documento": int(is_doc),
-                "Foto Real": int(is_real),
-                "Profesional": int(pro),
-                "Celular": int(phone),
-                "Generado IA": int(ai_gen)
+                "Documento": int(any(k in text_lower for k in ["documento", "pdf", "formulario", "papel"])),
+                "Naturaleza": int(any(k in text_lower for k in ["árbol", "bosque", "rio", "montaña", "naturaleza"])),
+                "Mascotas": int(any(k in text_lower for k in ["perro", "gato", "mascota", "animal doméstico"])),
+                "Paisaje": int(any(k in text_lower for k in ["paisaje", "panorama", "cielo", "vista"])),
+                "Comida": int(any(k in text_lower for k in ["comida", "alimento", "plato", "cocina"])),
+                "Personas": int(any(k in text_lower for k in ["persona", "hombre", "mujer", "gente"])),
+                "Arquitectura": int(any(k in text_lower for k in ["edificio", "arquitectura", "casa", "monumento"])),
+                "Texto": int(any(k in text_lower for k in ["texto", "letras", "escrito", "mensaje"]))
             }
+
             # Display chart
             st.subheader("📊 Clasificación de la imagen")
             st.bar_chart(classification)
